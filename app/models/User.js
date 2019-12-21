@@ -42,8 +42,6 @@ UserSchema.pre('save', function(next) {
 
 UserSchema.statics.findByEmailPassword = function(username, password) {
   const User = this; // binds this to the User model
-
-  // First find the user by their email
   return User.findOne({ username }).then(user => {
     if (!user) {
       return Promise.reject("User doesn't exist"); // a rejected promise
