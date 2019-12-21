@@ -1,1 +1,2 @@
-react-auth-boilerplate
+# React Auth Boilerplate
+
