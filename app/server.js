@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const User = require('./models/User');
 require('dotenv').config();
+const PORT = process.env.PORT || 5000;
 /*** Session handling **************************************/
 // Create a session cookie
 app.use(
@@ -41,4 +42,6 @@ app.get('/*', (req, res) => {
   res.status(404).end('Not Found');
 });
 
-module.exports = app;
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}\n\n`);
+});
