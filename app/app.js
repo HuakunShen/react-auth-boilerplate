@@ -1,19 +1,28 @@
 const createError = require('http-errors');
 const express = require('express');
+const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 // const logger = require('morgan');
 const session = require('express-session');
+const User = require('./models/User');
 require('dotenv').config();
+/*** Session handling **************************************/
+// Create a session cookie
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 6000,
+      httpOnly: true,
+    },
+  }),
+);
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-
-const app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
 // app.use(logger('dev'));
 app.use(express.json());
@@ -26,32 +35,10 @@ app.use('/api/users', usersRouter);
 
 require('./util/mongoose_connection');
 
-/*** Session handling **************************************/
-// Create a session cookie
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      expires: 600000,
-      httpOnly: true,
-    },
-  }),
-);
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-// Our own express middleware to check for
-// an active user on the session cookie (indicating a logged in user.)
-const sessionChecker = (req, res, next) => {
-  if (req.session.user) {
-    res.redirect('/'); // redirect to dashboard if logged in.
-  } else {
-    next(); // next() moves on to the route.
-  }
-};
-
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+app.get('/*', (req, res) => {
+  res.status(404).end('Not Found');
 });
 
 module.exports = app;

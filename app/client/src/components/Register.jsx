@@ -31,7 +31,7 @@ class Register extends Component {
         password,
       })
       .then(res => {
-        console.log(res);
+        console.log(res.data);
       })
       .catch(error => {
         console.error(error.response);
