@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt');
-const validator = require('validator');
+const bcrypt = require("bcrypt");
+const validator = require("validator");
 
 const UserSchema = new Schema({
   name: String,
@@ -12,9 +12,9 @@ const UserSchema = new Schema({
     unique: true,
     validate: {
       validator: validator.isEmail,
-      message: 'Not Valid Email',
-    },
-  },
+      message: "Not Valid Email"
+    }
+  }
 });
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
@@ -24,11 +24,11 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 };
 
-UserSchema.pre('save', function(next) {
-  console.log('\n\n-----pre save for user called-----\n\n');
+UserSchema.pre("save", function(next) {
+  console.log("\n\n-----pre save for user called-----\n\n");
   const user = this;
-  if (user.isModified('password')) {
-    console.log('password modified, hashing new password');
+  if (user.isModified("password")) {
+    console.log("password modified, hashing new password");
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(user.password, salt, (err, hash) => {
         user.password = hash;
@@ -52,11 +52,11 @@ UserSchema.statics.findByEmailPassword = function(username, password) {
         if (result) {
           resolve(user);
         } else {
-          reject();
+          reject("Password Incorrect");
         }
       });
     });
   });
 };
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);
