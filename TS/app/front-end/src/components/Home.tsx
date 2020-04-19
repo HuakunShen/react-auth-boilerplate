@@ -50,6 +50,14 @@ class Home extends Component<PropsType, IState> {
 
   componentDidMount() {
     document.addEventListener('click', this.multipleClickEvent);
+    console.log(
+      '%c Triple Click to go to sign in page ',
+      'background: #222; color: #bada55'
+    );
+    console.log(
+      '%c Quadraple Click to go to sign up page ',
+      'background: #222; color: #bada55'
+    );
   }
 
   componentWillUnmount() {
@@ -58,10 +66,10 @@ class Home extends Component<PropsType, IState> {
 
   render() {
     return (
-      <div className="home-page">
-        <div className="home-container">
-          <span className="text1">Welcome to</span>
-          <span className="text2">huakunshen.com</span>
+      <div className='home-page'>
+        <div className='home-container'>
+          <span className='text1'>Welcome to</span>
+          <span className='text2'>huakunshen.com</span>
         </div>
       </div>
     );
