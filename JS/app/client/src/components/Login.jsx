@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import '../stylesheets/login.scss';
 import $ from 'jquery';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { mapStateToProps, mapDispatchToProps } from '../lib/redux_helper';
+import Navbar from './Navbar';
 
 class Login extends Component {
   state = { err_msg: null };
 
-  login = event => {
+  login = (event) => {
     event.preventDefault();
     console.log('Submit Login Request');
     axios
@@ -14,10 +17,11 @@ class Login extends Component {
         username: $('#username').val(),
         password: $('#password').val(),
       })
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
+        this.props.loadAuth();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('error');
         console.log(err);
         console.log(err.response);
@@ -31,6 +35,7 @@ class Login extends Component {
   render() {
     return (
       <div className="login-page">
+        <Navbar />
         {this.state.err_msg ? (
           <div className="alert alert-danger" role="alert">
             {this.state.err_msg}
@@ -68,4 +73,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

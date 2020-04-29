@@ -5,12 +5,17 @@ const mongoose = require('mongoose');
 // MONGODB_LOCAL_URL=mongodb://localhost/db_name
 
 mongoose
-  .connect(process.env.MONGODB_LOCAL_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(
     () => {
-      console.log('\n\n--------------------\nMongoose connected to DB\n--------------------\n\n');
+      console.log(
+        '\n\n--------------------\nMongoose connected to DB\n--------------------\n\n'
+      );
     },
-    err => {
+    (err) => {
       console.log('Mongoose connection Error: ', err);
-    },
+    }
   );

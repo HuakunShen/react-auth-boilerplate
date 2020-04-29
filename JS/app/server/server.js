@@ -5,7 +5,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 // const logger = require('morgan');
 const session = require('express-session');
-const User = require('./models/User');
+const time = require('./util/time');
+
 require('dotenv').config();
 const PORT = process.env.PORT || 5000;
 /*** Session handling **************************************/
@@ -16,10 +17,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      expires: 6000,
+      expires: 30 * time.one_day,
       httpOnly: true,
     },
-  }),
+  })
 );
 
 const indexRouter = require('./routes/index');
